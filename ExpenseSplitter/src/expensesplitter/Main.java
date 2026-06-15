@@ -1,17 +1,5 @@
 package expensesplitter;
 
-/**
- * Entry point for the Personal Expense Splitter app.
- *
- * Run this class to start the program.
- * Practice concepts: main method, orchestrating classes together, loops, control flow.
- *
- * STRETCH GOALS (try these once the basics work):
- *   1. Save split results to a .txt file
- *   2. Keep a history of all bills in one session
- *   3. Let the user edit a person's name before splitting
- *   4. Add a "who paid?" field and show who gets money back
- */
 public class Main {
 
     public static void main(String[] args) {
@@ -57,7 +45,6 @@ public class Main {
             if (mode == Bill.SplitMode.EQUAL) {
                 bill.splitEqually();
             } else {
-                // Collect a percentage for each person
                 double[] percentages = new double[bill.getPeople().size()];
                 System.out.println("\nEnter percentage for each person (must total 100):");
 
@@ -67,9 +54,11 @@ public class Main {
                         String prompt = "  " + bill.getPeople().get(i).getName() + "'s %: ";
                         percentages[i] = InputHelper.getPositiveDouble(prompt);
                     }
-                    valid = bill.splitByPercentage(percentages);
-                    if (!valid) {
-                        System.out.println("  Let's try the percentages again.\n");
+                    String error = bill.splitByPercentage(percentages);
+                    if (error != null) {
+                        System.out.println("  " + error + " Let's try again.\n");
+                    } else {
+                        valid = true;
                     }
                 }
             }

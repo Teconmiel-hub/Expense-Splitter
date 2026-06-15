@@ -30,7 +30,7 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) {
-        stage.setTitle("💸 Expense Splitter");
+        stage.setTitle("🌸 Expense Splitter");
         stage.setMinWidth(480);
         stage.setMinHeight(640);
 
@@ -38,8 +38,16 @@ public class MainApp extends Application {
         root.setPadding(new Insets(24));
 
         Scene scene = new Scene(root, 480, 720);
-        String css = getClass().getResource("/resources/style.css").toExternalForm();
-        scene.getStylesheets().add(css);
+
+        // Load CSS safely
+        try {
+            java.net.URL cssUrl = getClass().getResource("/resources/style.css");
+            if (cssUrl != null) {
+                scene.getStylesheets().add(cssUrl.toExternalForm());
+            }
+        } catch (Exception e) {
+            System.out.println("CSS not loaded: " + e.getMessage());
+        }
 
         stage.setScene(scene);
         stage.show();
@@ -59,7 +67,7 @@ public class MainApp extends Application {
         billSection.getStyleClass().add("section-label");
 
         TextField descField = new TextField();
-        descField.setPromptText("What's this bill for? (e.g. Dinner 🍽️)");
+        descField.setPromptText("What's this bill for? (e.g. Dinner)");
 
         TextField amountField = new TextField();
         amountField.setPromptText("Total amount (€)");
